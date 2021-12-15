@@ -15,6 +15,12 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->unsigned();
+            $table->string('question_id')->unique();
+            $table->string('title');
+            $table->text('message');
+            $table->enum('status',  ['not_answered', 'in_progress', 'answered', 'spam']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
