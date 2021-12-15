@@ -13,4 +13,9 @@ class Question extends Model
         'user_id', 'question_id', 'title', 'message', 'status'
     ];
 
+    public function answers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Answer::class);
+    }
+
 }
