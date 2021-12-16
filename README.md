@@ -48,3 +48,12 @@ docker run --rm \
 ```
 ./vendor/bin/sail artisan db:seed --class="AdminSeeder"
 ```
+
+## Generate APIs documentation with swagger/postman support
+
+```
+./vendor/bin/sail artisan scribe:generate
+```
+
+> `postman` collection at `public/docs/collection.json`
+> `openapi` collection at `public/docs/openapi.yaml`
