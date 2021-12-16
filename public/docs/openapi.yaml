@@ -1,0 +1,246 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  - url: 'http://localhost'
+paths:
+  /api/questions:
+    post:
+      summary: 'Create a Question'
+      description: ''
+      parameters:
+        - in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: { }
+      tags:
+        - 'Customer Questions'
+    get:
+      summary: 'List Questions for specific account'
+      description: ''
+      parameters:
+        - in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Customer Questions'
+  '/api/questions/{id}':
+    get:
+      summary: 'Get specific question'
+      description: ''
+      parameters:
+        - in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Customer Questions'
+    put:
+      summary: 'update specific question'
+      description: ''
+      parameters:
+        - in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: { }
+      tags:
+        - 'Customer Questions'
+    parameters:
+      - in: path
+        name: id
+        description: 'The ID of the question.'
+        example: 13
+        required: true
+        schema:
+          type: integer
+  /api/logout:
+    post:
+      summary: ''
+      description: ''
+      parameters:
+        - in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: { }
+      tags:
+        - Endpoints
+  /api/register:
+    post:
+      summary: ''
+      description: ''
+      parameters:
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: { }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: goeqirrdfcvbywmhnuomyrwhfbfgzldlhapbcwtcbpnzznhmyjxjcmqosxsnsmfufbsrbtemjqteboqclzgjsjnblpwrrvwhjvsbyejynkihxdgcudsqdrmdtssmufojnqjgihfyeesntgaovecmskrqhclhszichvfcxikmfpvyvewxmkrzrbipmnkvzgcwzbdcfakpmhxuihydloojmwifxapyreuzai
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: zlispeuhevsgppgvzfmboshdtrpganflruxmhlgpoodiwpbsydhauwtuimwicbwvfrnomvofwzcuqjwzmgvulzorrbbbjbygpalivgvdsxuwonafymxodnberlqbhyqryinqoflenjlmgyijpzyivoqlqorsogkvangetfltgyv
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: kvtkmgh
+              required:
+                - name
+                - email
+                - password
+      security: [ ]
+  /api/login:
+    post:
+      summary: ''
+      description: ''
+      parameters:
+        - in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: { }
+      tags:
+        - Endpoints
+      security: [ ]
+tags:
+  - name: 'Customer Questions'
+    description: ''
+  - name: Endpoints
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  - default: [ ]
