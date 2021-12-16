@@ -10,12 +10,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
 
+/**
+ * @group Customer Questions
+ */
 class QuestionsController extends Controller
 {
     use ApiUtils;
 
     private $allowed_status = ['not_answered', 'in_progress', 'answered', 'spam'];
 
+    /**
+     * Create a Question
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function createQuestion(Request $request): JsonResponse
     {
 
@@ -39,6 +47,11 @@ class QuestionsController extends Controller
         return $this->sendError('Unauthorized Access', [], 401);
     }
 
+    /**
+     * List Questions for specific account
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function listQuestions(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -49,13 +62,19 @@ class QuestionsController extends Controller
         return $this->sendError('Unauthorized Access', [], 401);
     }
 
+    /**
+     * Get specific question
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
     public function getQuestion(Request $request, $id): JsonResponse
     {
         $user = $request->user();
         if ($this->isAdmin($user) || $this->isCustomer($user)) {
-            try{
+            try {
                 $questions = Question::where('id', $id)->where('user_id', $user->id)->with('answers')->firstOrFail();
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 return $this->sendError('No Results', [], 403);
             }
             return $this->sendResponse($questions, 'List of questions');
@@ -63,12 +82,18 @@ class QuestionsController extends Controller
         return $this->sendError('Unauthorized Access', [], 401);
     }
 
+    /**
+     * update specific question
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
     public function updateQuestion(Request $request, $id): JsonResponse
     {
         $user = $request->user();
 
         if ($this->isAdmin($user) || $this->isCustomer($user)) {
-            try{
+            try {
 
                 $validator = Validator::make($request->only(['status']), [
                     'status' => 'required|in:not_answered,in_progress,answered,spam',
