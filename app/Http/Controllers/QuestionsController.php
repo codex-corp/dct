@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\ApiUtils;
 use App\Models\Question;
+use App\Notifications\QuestionStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ use Validator;
 class QuestionsController extends Controller
 {
     use ApiUtils;
+
+    private $allowed_status = ['not_answered', 'in_progress', 'answered', 'spam'];
 
     public function createQuestion(Request $request): JsonResponse
     {
@@ -56,6 +59,40 @@ class QuestionsController extends Controller
                 return $this->sendError('No Results', [], 403);
             }
             return $this->sendResponse($questions, 'List of questions');
+        }
+        return $this->sendError('Unauthorized Access', [], 401);
+    }
+
+    public function updateQuestion(Request $request, $id): JsonResponse
+    {
+        $user = $request->user();
+
+        if ($this->isAdmin($user) || $this->isCustomer($user)) {
+            try{
+
+                $validator = Validator::make($request->only(['status']), [
+                    'status' => 'required|in:not_answered,in_progress,answered,spam',
+                ]);
+
+                if($validator->passes()){
+
+                    $question = Question::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+                    $question->status = $request->input('status');
+                    $question->save();
+
+                    /**
+                     * @todo: enable mailhog if you want to test the email
+                     */
+//                  $user->notify(new QuestionStatus($question));
+
+                    return $this->sendResponse($question, 'The selected question is updated');
+                }else{
+                    return $this->sendError('All fields are required.', $validator->errors(), 400);
+                }
+
+            }catch(\Exception $e){
+                return $this->sendError('No Results', [], 403);
+            }
         }
         return $this->sendError('Unauthorized Access', [], 401);
     }
