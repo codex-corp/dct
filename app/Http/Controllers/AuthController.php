@@ -10,6 +10,11 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @unauthenticated
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -34,6 +39,11 @@ class AuthController extends Controller
         return $this->sendResponse($user , 'Registered successfully');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @unauthenticated
+     */
     public function login(Request $request)
     {
         if (!Auth::attempt($request->only('email', 'password', 'password')))
